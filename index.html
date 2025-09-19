@@ -1,0 +1,392 @@
+<!-- Filename: work-links-dashboard_v03.html -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arbeits-Dashboard – Wichtigste Links</title>
+
+  <!-- Bootstrap CSS (5.3.x) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+
+  <meta name="description" content="Schnelles Dashboard mit den wichtigsten Arbeitslinks." />
+  <meta name="color-scheme" content="light dark" />
+
+  <style>
+    :root {
+      --card-min-w: 260px;
+    }
+    body {
+      min-height: 100dvh;
+    }
+    .link-card {
+      transition: transform .08s ease, box-shadow .08s ease;
+    }
+    .link-card:hover,
+    .link-card:focus-within {
+      transform: translateY(-2px);
+      box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    }
+    .brand-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(var(--card-min-w), 1fr));
+      gap: 1rem;
+    }
+    @media (min-width: 992px) {
+      .grid { gap: 1.25rem; }
+    }
+    .truncate-1 {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .truncate-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .kbd {
+      border: 1px solid var(--bs-border-color);
+      border-bottom-width: 2px;
+      padding: .1rem .35rem;
+      border-radius: .35rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: .85em;
+      background: var(--bs-tertiary-bg);
+    }
+  </style>
+</head>
+<body class="bg-body-tertiary">
+  <header class="border-bottom bg-body">
+    <div class="container py-3 d-flex flex-column gap-3 gap-md-0 flex-md-row align-items-md-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <div class="brand-badge bg-primary text-white">
+          <i class="bi bi-grid-fill" aria-hidden="true"></i>
+        </div>
+        <div>
+          <h1 class="h4 mb-1">Arbeits-Dashboard</h1>
+          <p class="text-body-secondary mb-0">Schneller Zugriff auf deine wichtigsten Links</p>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="input-group">
+          <span class="input-group-text" id="search-label">
+            <i class="bi bi-search" aria-hidden="true"></i>
+          </span>
+          <input id="search" type="search" class="form-control" placeholder="Suchen (Titel, Domain)…"
+                 aria-label="Suche" aria-describedby="search-label" autocomplete="off" />
+        </div>
+        <button id="openAll" class="btn btn-outline-primary" type="button" title="Alle Links in neuen Tabs öffnen">
+          <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> <span class="d-none d-sm-inline">Alle öffnen</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-4">
+    <div class="mb-3 small text-body-secondary d-flex flex-wrap align-items-center justify-content-between">
+      <div>
+        <span class="me-2"><i class="bi bi-hash" aria-hidden="true"></i> <span id="count">7</span> Links</span>
+        <span class="ms-2">Tipp: Drücke <span class="kbd">/</span> zum Fokussieren der Suche.</span>
+      </div>
+      <div>Stand: 19.09.2025</div>
+    </div>
+
+    <section class="grid" id="cards" aria-live="polite">
+      <!-- Card 1 -->
+      <article class="card link-card" data-title="ESC Prod Dashboard" data-domain="escprod.azurewebsites.net">
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-success text-white flex-shrink-0">
+            <i class="bi bi-speedometer2" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h2 class="h6 mb-1 truncate-1">ESC Prod Dashboard</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Login &amp; Dashboard für ESC Prod</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer"
+                 href="https://escprod.azurewebsites.net/login?returnUrl=%2Fdashboard">
+                Öffnen
+              </a>
+              <button class="btn btn-outline-secondary btn-sm copy-btn" type="button"
+                      data-url="https://escprod.azurewebsites.net/login?returnUrl=%2Fdashboard">
+                <i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren
+              </button>
+              <span class="align-self-center small text-body-secondary">escprod.azurewebsites.net</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card link-card" data-title="Eurodata SSO Mitarbeiter" data-domain="apps.eurodata.de">
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-warning text-dark flex-shrink-0">
+            <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h2 class="h6 mb-1 truncate-1">Eurodata SSO Mitarbeiter</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Anmeldung via OpenID Connect (Weiterleitung zu eMitarbeiter)</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer"
+                 href="https://sso.eurodata.de/u/auth/realms/eurodata/protocol/openid-connect/auth?client_id=app-emitarbeiter-frontend&redirect_uri=https%3A%2F%2Fapps.eurodata.de%2Fa%2Femitarbeiter%2Fui%2Fr%2Fega&state=78e75299-d1eb-447c-8838-930bd8755dc1&response_mode=fragment&response_type=code&scope=openid&nonce=d787a40c-0cad-42b9-8d9b-2c090c4564cc&code_challenge=l02Q_bYuL1Bf26oiSzOxLl54FURwRSEIf0qsNE6SVVI&code_challenge_method=S256">
+                Öffnen
+              </a>
+              <button class="btn btn-outline-secondary btn-sm copy-btn" type="button"
+                      data-url="https://sso.eurodata.de/u/auth/realms/eurodata/protocol/openid-connect/auth?client_id=app-emitarbeiter-frontend&redirect_uri=https%3A%2F%2Fapps.eurodata.de%2Fa%2Femitarbeiter%2Fui%2Fr%2Fega&state=78e75299-d1eb-447c-8838-930bd8755dc1&response_mode=fragment&response_type=code&scope=openid&nonce=d787a40c-0cad-42b9-8d9b-2c090c4564cc&code_challenge=l02Q_bYuL1Bf26oiSzOxLl54FURwRSEIf0qsNE6SVVI&code_challenge_method=S256">
+                <i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren
+              </button>
+              <span class="align-self-center small text-body-secondary">apps.eurodata.de</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card link-card" data-title="Wochenbericht" data-domain="sebthecrab.github.io">
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-info text-dark flex-shrink-0">
+            <i class="bi bi-journal-check" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h2 class="h6 mb-1 truncate-1">Wochenbericht</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">GitHub Pages – Wochenberichte pflegen</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer"
+                 href="https://sebthecrab.github.io/Wochenbericht/">
+                Öffnen
+              </a>
+              <button class="btn btn-outline-secondary btn-sm copy-btn" type="button"
+                      data-url="https://sebthecrab.github.io/Wochenbericht/">
+                <i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren
+              </button>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="card link-card" data-title="Heimfahrt-Rechner" data-domain="sebthecrab.github.io">
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-danger text-white flex-shrink-0">
+            <i class="bi bi-geo-fill" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h2 class="h6 mb-1 truncate-1">Heimfahrt-Rechner</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">GitHub Pages – Heimfahrt kalkulieren</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer"
+                 href="https://sebthecrab.github.io/Heimfahrt-Rechner/">
+                Öffnen
+              </a>
+              <button class="btn btn-outline-secondary btn-sm copy-btn" type="button"
+                      data-url="https://sebthecrab.github.io/Heimfahrt-Rechner/">
+                <i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren
+              </button>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="card link-card" data-title="Photopea" data-domain="photopea.com">
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-secondary text-white flex-shrink-0">
+            <i class="bi bi-brush-fill" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h2 class="h6 mb-1 truncate-1">Photopea</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Online Photoshop-Alternative im Browser</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer"
+                 href="https://www.photopea.com">
+                Öffnen
+              </a>
+              <button class="btn btn-outline-secondary btn-sm copy-btn" type="button"
+                      data-url="https://www.photopea.com">
+                <i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren
+              </button>
+              <span class="align-self-center small text-body-secondary">photopea.com</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="card link-card" data-title="GitHub" data-domain="github.com">
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-dark text-white flex-shrink-0">
+            <i class="bi bi-github" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h2 class="h6 mb-1 truncate-1">GitHub</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Code-Repositories und Zusammenarbeit</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer"
+                 href="https://github.com">
+                Öffnen
+              </a>
+              <button class="btn btn-outline-secondary btn-sm copy-btn" type="button"
+                      data-url="https://github.com">
+                <i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren
+              </button>
+              <span class="align-self-center small text-body-secondary">github.com</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 7 -->
+      <article class="card link-card" data-title="Kontaktliste" data-domain="sebthecrab.github.io">
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-primary text-white flex-shrink-0">
+            <i class="bi bi-people-fill" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h2 class="h6 mb-1 truncate-1">Kontaktliste</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Deine Kontakte auf GitHub Pages</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer"
+                 href="https://sebthecrab.github.io/Kontaktliste/">
+                Öffnen
+              </a>
+              <button class="btn btn-outline-secondary btn-sm copy-btn" type="button"
+                      data-url="https://sebthecrab.github.io/Kontaktliste/">
+                <i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren
+              </button>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="container py-4 border-top text-body-secondary small">
+    <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
+      <div>© <span id="year"></span> Dein Arbeits-Dashboard</div>
+      <div class="d-flex align-items-center gap-3">
+        <span>Theme:</span>
+        <div class="btn-group" role="group" aria-label="Theme umschalten">
+          <input type="radio" class="btn-check" name="theme" id="theme-auto" value="auto" autocomplete="off" checked>
+          <label class="btn btn-outline-secondary btn-sm" for="theme-auto"><i class="bi bi-circle-half" aria-hidden="true"></i> Auto</label>
+
+          <input type="radio" class="btn-check" name="theme" id="theme-light" value="light" autocomplete="off">
+          <label class="btn btn-outline-secondary btn-sm" for="theme-light"><i class="bi bi-brightness-high" aria-hidden="true"></i> Hell</label>
+
+          <input type="radio" class="btn-check" name="theme" id="theme-dark" value="dark" autocomplete="off">
+          <label class="btn btn-outline-secondary btn-sm" for="theme-dark"><i class="bi bi-moon-stars" aria-hidden="true"></i> Dunkel</label>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+  <script>
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+
+    $("#year").textContent = new Date().getFullYear();
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "/" && !/input|textarea/i.test(document.activeElement.tagName)) {
+        e.preventDefault();
+        $("#search").focus();
+        $("#search").select();
+      }
+    });
+
+    $$(".copy-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(btn.dataset.url);
+          btn.innerHTML = '<i class="bi bi-check2" aria-hidden="true"></i> Kopiert';
+          btn.classList.remove("btn-outline-secondary");
+          btn.classList.add("btn-success");
+          setTimeout(() => {
+            btn.innerHTML = '<i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren';
+            btn.classList.add("btn-outline-secondary");
+            btn.classList.remove("btn-success");
+          }, 1600);
+        } catch {
+          alert("Konnte den Link nicht in die Zwischenablage kopieren.");
+        }
+      });
+    });
+
+    $("#openAll").addEventListener("click", () => {
+      const links = $$("#cards a.btn.btn-primary");
+      links.forEach(a => window.open(a.href, "_blank", "noopener"));
+    });
+
+    const cardsContainer = $("#cards");
+    const searchInput = $("#search");
+    const countEl = $("#count");
+
+    function normalize(s) {
+      return (s || "").toString().toLowerCase().normalize("NFKD").replace(/\s+/g, " ").trim();
+    }
+
+    function filterCards() {
+      const q = normalize(searchInput.value);
+      let visible = 0;
+      $$(".card", cardsContainer).forEach(card => {
+        const title = normalize(card.dataset.title);
+        const domain = normalize(card.dataset.domain);
+        const text = `${title} ${domain}`;
+        const show = !q || text.includes(q);
+        card.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      countEl.textContent = visible;
+    }
+    searchInput.addEventListener("input", filterCards);
+    filterCards();
+
+    const root = document.documentElement;
+    const themeRadios = $$('input[name="theme"]');
+    const THEME_KEY = "dashboard-theme";
+    function applyTheme(value) {
+      if (value === "auto") {
+        root.removeAttribute("data-bs-theme");
+      } else {
+        root.setAttribute("data-bs-theme", value);
+      }
+      localStorage.setItem(THEME_KEY, value);
+    }
+    const savedTheme = localStorage.getItem(THEME_KEY) || "auto";
+    const toCheck = $(`input[name="theme"][value="${savedTheme}"]`);
+    if (toCheck) { toCheck.checked = true; applyTheme(savedTheme); }
+    themeRadios.forEach(r => r.addEventListener("change", () => applyTheme(r.value)));
+  </script>
+
+</body>
+</html>
