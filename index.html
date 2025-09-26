@@ -1,4 +1,4 @@
-<!-- Filename: work-links-dashboard_v05.html -->
+<!-- Filename: work-links-dashboard_v06.html -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -23,17 +23,422 @@
   <meta name="color-scheme" content="light dark" />
 
   <style>
-    :root {
+    :root{
       --card-min-w: 260px;
+      --ios-radius: 22px;
+      --ios-icon: 42px;
+      --ios-gap: 10px;
     }
-    body {
-      min-height: 100dvh;
+    body{ min-height: 100dvh; }
+
+    /* ---------- Desktop/Klassisch ---------- */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(var(--card-min-w),1fr));
+      gap:1rem;
     }
-    .link-card {
+    @media (min-width: 992px){ .grid{ gap:1.25rem; } }
+
+    .link-card{
       transition: transform .08s ease, box-shadow .08s ease;
+      border-radius: calc(var(--ios-radius) - 6px);
     }
     .link-card:hover,
-    .link-card:focus-within {
+    .link-card:focus-within{
+      transform: translateY(-2px);
+      box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    }
+    .brand-badge{
+      width:44px; height:44px; border-radius:12px;
+      display:inline-flex; align-items:center; justify-content:center;
+      font-size:1.25rem;
+    }
+    .truncate-1{
+      display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .truncate-2{
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .kbd{
+      border:1px solid var(--bs-border-color); border-bottom-width:2px;
+      padding:.1rem .35rem; border-radius:.35rem;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size:.85em; background:var(--bs-tertiary-bg);
+    }
+
+    /* ---------- iPhone-Homescreen Modus (mobil ≤576px) ---------- */
+    @media (max-width: 576px){
+      /* 4 Spalten wie iOS */
+      .grid{
+        display:grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        padding: 6px 2px;
+      }
+      /* Jede Karte wird zur App-Kachel */
+      .link-card{
+        position:relative;
+        border:none;
+        background: transparent;
+        box-shadow:none;
+        border-radius: 0;
+        padding:0;
+      }
+      .link-card .card-body{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:flex-start;
+        text-align:center;
+        gap: var(--ios-gap);
+        padding:0;
+      }
+      /* Quadratische Kachelfläche */
+      .link-card::before{
+        content:"";
+        display:block;
+        width:100%;
+        aspect-ratio:1/1;
+        border-radius: var(--ios-radius);
+        background: var(--bs-body-bg);
+        box-shadow:
+          0 6px 12px rgba(0,0,0,.12),
+          inset 0 0 0 1px rgba(0,0,0,.04);
+      }
+      /* Icon sitzt zentriert in der Kachelfläche */
+      .link-card .brand-badge{
+        position:absolute;
+        top:50%; left:50%;
+        transform: translate(-50%,-58%);
+        width: clamp(48px, 9.5vw, 68px);
+        height: clamp(48px, 9.5vw, 68px);
+        border-radius: 18px;
+        font-size: clamp(1.2rem, 3.6vw, 1.6rem);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+      }
+      /* App-Name unten drunter */
+      .link-card h2{
+        margin:0;
+        margin-top: calc(100% + 6px); /* unter die Kachelfläche rutschen */
+        font-size: .92rem;
+        line-height: 1.15;
+        max-width: 95%;
+      }
+      /* Sekundärtexte/Buttons ausblenden */
+      .link-card p,
+      .link-card .d-flex.flex-wrap.gap-2 span,
+      .link-card .btn{ display:none !important; }
+
+      /* Ganzes Tile klickbar: unsichtbarer Link */
+      .link-card .stretched-tile{
+        position:absolute; inset:0;
+        border-radius: var(--ios-radius);
+        z-index:2;
+      }
+      /* Press-Effekt */
+      .link-card:active::before{
+        transform: scale(.98);
+        filter: brightness(.98);
+      }
+
+      /* Dock-Abstand am unteren Rand wie iOS (rein optisch) */
+      main.container{ padding-bottom: 18px; }
+    }
+  </style>
+</head>
+<body class="bg-body-tertiary">
+  <header class="border-bottom bg-body">
+    <div class="container py-3 d-flex flex-column gap-3 gap-md-0 flex-md-row align-items-md-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <div class="brand-badge bg-primary text-white">
+          <i class="bi bi-grid-fill" aria-hidden="true"></i>
+        </div>
+        <div>
+          <h1 class="h4 mb-1">Arbeits-Dashboard</h1>
+          <p class="text-body-secondary mb-0">Schneller Zugriff auf deine wichtigsten Links</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-4">
+    <section class="grid" id="cards" aria-live="polite">
+      <!-- Card 1 -->
+      <article class="card link-card" data-title="ESC Prod Dashboard" data-domain="escprod.azurewebsites.net" tabindex="0" role="link" aria-label="ESC Prod Dashboard öffnen">
+        <a class="stretched-tile" href="https://escprod.azurewebsites.net/login?returnUrl=%2Fdashboard" target="_blank" rel="noopener noreferrer"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-success text-white flex-shrink-0">
+            <i class="bi bi-speedometer2" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1 truncate-1">ESC Prod Dashboard</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">E-Service-Check Portal</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm primary-link" target="_blank" rel="noopener noreferrer"
+                 href="https://escprod.azurewebsites.net/login?returnUrl=%2Fdashboard">
+                Öffnen
+              </a>
+              <span class="align-self-center small text-body-secondary">escprod.azurewebsites.net</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 7: Lager E-Service-Check -->
+      <article class="card link-card" data-title="Lager E-Service-Check" data-domain="lager.e-service-check.de" tabindex="0" role="link" aria-label="Lager E-Service-Check öffnen">
+        <a class="stretched-tile" href="https://lager.e-service-check.de/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-dark text-white flex-shrink-0">
+            <i class="bi bi-box-seam" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1 truncate-1">Lager E-Service-Check</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Zugriff auf das Lager-Portal</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm primary-link" target="_blank" rel="noopener noreferrer"
+                 href="https://lager.e-service-check.de/">
+                Öffnen
+              </a>
+              <span class="align-self-center small text-body-secondary">lager.e-service-check.de</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card link-card" data-title="Eurodata SSO Mitarbeiter" data-domain="apps.eurodata.de" tabindex="0" role="link" aria-label="Eurodata SSO Mitarbeiter öffnen">
+        <a class="stretched-tile" href="https://sso.eurodata.de/u/auth/realms/eurodata/protocol/openid-connect/auth?client_id=app-emitarbeiter-frontend&redirect_uri=https%3A%2F%2Fapps.eurodata.de%2Fa%2Femitarbeiter%2Fui%2Fr%2Fega&state=78e75299-d1eb-447c-8838-930bd8755dc1&response_mode=fragment&response_type=code&scope=openid&nonce=d787a40c-0cad-42b9-8d9b-2c090c4564cc&code_challenge=l02Q_bYuL1Bf26oiSzOxLl54FURwRSEIf0qsNE6SVVI&code_challenge_method=S256" target="_blank" rel="noopener noreferrer"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-warning text-dark flex-shrink-0">
+            <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1 truncate-1">Eurodata SSO Mitarbeiter</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Weiterleitung zu eMitarbeiter für Lohnabrechnungen</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm primary-link" target="_blank" rel="noopener noreferrer"
+                 href="https://sso.eurodata.de/u/auth/realms/eurodata/protocol/openid-connect/auth?client_id=app-emitarbeiter-frontend&redirect_uri=https%3A%2F%2Fapps.eurodata.de%2Fa%2Femitarbeiter%2Fui%2Fr%2Fega&state=78e75299-d1eb-447c-8838-930bd8755dc1&response_mode=fragment&response_type=code&scope=openid&nonce=d787a40c-0cad-42b9-8d9b-2c090c4564cc&code_challenge=l02Q_bYuL1Bf26oiSzOxLl54FURwRSEIf0qsNE6SVVI&code_challenge_method=S256">
+                Öffnen
+              </a>
+              <span class="align-self-center small text-body-secondary">apps.eurodata.de</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card link-card" data-title="Wochenbericht" data-domain="sebthecrab.github.io" tabindex="0" role="link" aria-label="Wochenbericht öffnen">
+        <a class="stretched-tile" href="https://sebthecrab.github.io/Wochenbericht/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-info text-dark flex-shrink-0">
+            <i class="bi bi-journal-check" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1 truncate-1">Wochenbericht</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Kurz- bzw. Wochenberichte pflegen, welche an Disponent weitergeleitet werden</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm primary-link" target="_blank" rel="noopener noreferrer"
+                 href="https://sebthecrab.github.io/Wochenbericht/">
+                Öffnen
+              </a>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="card link-card" data-title="Heimfahrt-Rechner" data-domain="sebthecrab.github.io" tabindex="0" role="link" aria-label="Heimfahrt-Rechner öffnen">
+        <a class="stretched-tile" href="https://sebthecrab.github.io/Heimfahrt-Rechner/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-danger text-white flex-shrink-0">
+            <i class="bi bi-geo-fill" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1 truncate-1">Heimfahrt-Rechner</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Heimfahrt bzw. maximale Arbeitszeit kalkulieren</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm primary-link" target="_blank" rel="noopener noreferrer"
+                 href="https://sebthecrab.github.io/Heimfahrt-Rechner/">
+                Öffnen
+              </a>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 8: Arbeitszeiterfassung -->
+      <article class="card link-card" data-title="Arbeitszeiterfassung" data-domain="sebthecrab.github.io" tabindex="0" role="link" aria-label="Arbeitszeiterfassung öffnen">
+        <a class="stretched-tile" href="https://sebthecrab.github.io/Arbeitszeiterfassung/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-success text-white flex-shrink-0">
+            <i class="bi bi-clock-history" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1 truncate-1">Arbeitszeiterfassung</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Arbeitszeiten bequem erfassen und auswerten</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm primary-link" target="_blank" rel="noopener noreferrer"
+                 href="https://sebthecrab.github.io/Arbeitszeiterfassung/">
+                Öffnen
+              </a>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="card link-card" data-title="Kontaktliste" data-domain="sebthecrab.github.io" tabindex="0" role="link" aria-label="Kontaktliste öffnen">
+        <a class="stretched-tile" href="https://sebthecrab.github.io/Kontaktliste/" target="_blank" rel="noopener noreferrer"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-primary text-white flex-shrink-0">
+            <i class="bi bi-people-fill" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1 truncate-1">Kontaktliste</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Deine Kontakte</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm primary-link" target="_blank" rel="noopener noreferrer"
+                 href="https://sebthecrab.github.io/Kontaktliste/">
+                Öffnen
+              </a>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6: Google Drive -->
+      <article class="card link-card" data-title="Google Drive" data-domain="drive.google.com" tabindex="0" role="link" aria-label="Google Drive öffnen">
+        <a class="stretched-tile" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener noreferrer"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-secondary text-white flex-shrink-0">
+            <i class="bi bi-folder-fill" aria-hidden="true"></i>
+          </div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1 truncate-1">Google Drive</h2>
+            <p class="mb-2 small text-body-secondary truncate-2">Schneller Zugriff auf „Mein Drive“</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm primary-link" target="_blank" rel="noopener noreferrer"
+                 href="https://drive.google.com/drive/my-drive">
+                Öffnen
+              </a>
+              <span class="align-self-center small text-body-secondary">drive.google.com</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+  <script>
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+
+    /* Defensive: greife nur zu, wenn Elemente existieren */
+    const yearEl = $("#year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "/" && !/input|textarea/i.test(document.activeElement?.tagName || "")) {
+        const si = $("#search");
+        if (!si) return;
+        e.preventDefault();
+        si.focus(); si.select();
+      }
+    });
+
+    $$(".copy-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        try{
+          await navigator.clipboard.writeText(btn.dataset.url || "");
+          btn.innerHTML = '<i class="bi bi-check2" aria-hidden="true"></i> Kopiert';
+          btn.classList.remove("btn-outline-secondary");
+          btn.classList.add("btn-success");
+          setTimeout(()=>{
+            btn.innerHTML = '<i class="bi bi-clipboard" aria-hidden="true"></i> Kopieren';
+            btn.classList.add("btn-outline-secondary");
+            btn.classList.remove("btn-success");
+          },1600);
+        }catch{
+          alert("Konnte den Link nicht in die Zwischenablage kopieren.");
+        }
+      });
+    });
+
+    const openAllBtn = $("#openAll");
+    if (openAllBtn){
+      openAllBtn.addEventListener("click", ()=>{
+        const links = $$("#cards a.btn.btn-primary");
+        links.forEach(a => window.open(a.href, "_blank", "noopener"));
+      });
+    }
+
+    const cardsContainer = $("#cards");
+    const searchInput = $("#search");
+    const countEl = $("#count");
+
+    function normalize(s){ return (s||"").toString().toLowerCase().normalize("NFKD").replace(/\s+/g," ").trim(); }
+
+    function filterCards(){
+      if (!cardsContainer || !searchInput || !countEl) return;
+      const q = normalize(searchInput.value);
+      let visible = 0;
+      $$(".card", cardsContainer).forEach(card=>{
+        const title = normalize(card.dataset.title);
+        const domain = normalize(card.dataset.domain);
+        const text = `${title} ${domain}`;
+        const show = !q || text.includes(q);
+        card.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      countEl.textContent = visible;
+    }
+    if (searchInput){ searchInput.addEventListener("input", filterCards); filterCards(); }
+
+    /* Theme-Handling nur, wenn Radios existieren */
+    const root = document.documentElement;
+    const themeRadios = $$('input[name="theme"]');
+    const THEME_KEY = "dashboard-theme";
+    function applyTheme(value){
+      if (value === "auto"){ root.removeAttribute("data-bs-theme"); }
+      else{ root.setAttribute("data-bs-theme", value); }
+      try{ localStorage.setItem(THEME_KEY, value); }catch{}
+    }
+    if (themeRadios.length){
+      const savedTheme = (()=>{
+        try{ return localStorage.getItem(THEME_KEY) || "auto"; }catch{ return "auto"; }
+      })();
+      const toCheck = $(`input[name="theme"][value="${savedTheme}"]`);
+      if (toCheck){ toCheck.checked = true; applyTheme(savedTheme); }
+      themeRadios.forEach(r => r.addEventListener("change", () => applyTheme(r.value)));
+    }
+
+    /* Zugänglichkeit: Card per Enter/Space auslösen und primären Link öffnen */
+    $$(".link-card").forEach(card=>{
+      card.addEventListener("keydown", (e)=>{
+        if (e.key === "Enter" || e.key === " "){
+          const link = card.querySelector(".primary-link") || card.querySelector(".stretched-tile");
+          if (link){
+            e.preventDefault();
+            const url = link.getAttribute("href");
+            const target = link.getAttribute("target") || "_self";
+            window.open(url, target, "noopener");
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
       transform: translateY(-2px);
       box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
     }
