@@ -1,4 +1,4 @@
-<!-- Filename: work-links-dashboard_v14.html -->
+<!-- Filename: work-links-dashboard_v15.html -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -14,14 +14,20 @@
   <meta name="description" content="Schnelles Dashboard mit den wichtigsten Arbeitslinks." />
   <meta name="color-scheme" content="light dark" />
 
+  <!-- Touch-Erkennung: setzt Klasse 'is-touch' für sichere CSS-Steuerung -->
+  <script>
+    (function () {
+      try {
+        var isCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        var hasTouch = 'ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0;
+        if (isCoarse || hasTouch) document.documentElement.classList.add('is-touch');
+      } catch (_) {}
+    })();
+  </script>
+
   <style>
     :root{ --card-min-w:260px; --ios-radius:22px; }
     body{ min-height:100dvh; }
-
-    /* Nur Header auf Touch-Geräten ausblenden */
-    @media (pointer: coarse) {
-      header { display: none !important; }
-    }
 
     /* ===== Desktop (klassisch) ===== */
     .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(var(--card-min-w),1fr)); gap:1rem; }
@@ -35,7 +41,7 @@
     .truncate-1{ display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
     .truncate-2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 
-    /* ===== App-Design (Smartphone + Tablet) ===== */
+    /* ===== App-Design (Smartphone + Tablet, Portrait & Landscape) ===== */
     @media(max-width:1024px),(pointer:coarse){
       :root{ --cols:4; --gap:14px; --padX:8px; --vh-limit:18vh; }
       .grid{ grid-template-columns:repeat(var(--cols),minmax(0,1fr)); gap:var(--gap); padding:6px var(--padX); }
@@ -43,6 +49,7 @@
       .link-card{ position:relative; border:none; background:transparent; box-shadow:none; padding:0; -webkit-tap-highlight-color:transparent; }
       .link-card .card-body{ display:flex; flex-direction:column; align-items:center; justify-content:flex-start; text-align:center; gap:8px; padding:0; width:100%; }
 
+      /* Quadratische Kachel: füllt Zelle, hält Abstand per grid-gap */
       .link-card .brand-badge{
         width:100%; aspect-ratio:1/1; height:auto; max-height:var(--vh-limit);
         border-radius:var(--ios-radius);
@@ -56,7 +63,6 @@
       .link-card p, .link-card .d-flex.flex-wrap.gap-2{ display:none!important; }
 
       .link-card .stretched-tile{ position:absolute; inset:0; border-radius:var(--ios-radius); z-index:2; }
-
       .link-card:active .brand-badge{ transform:scale(.98); filter:brightness(.98); }
 
       main.container{ padding-bottom:max(18px,env(safe-area-inset-bottom)); }
@@ -64,6 +70,9 @@
     @media(min-width:600px) and (max-width:1024px),(pointer:coarse) and (min-width:600px){ :root{--cols:5;} }
     @media(min-width:900px) and (max-width:1024px),(pointer:coarse) and (min-width:900px){ :root{--cols:6;} }
     @media(orientation:landscape) and (max-width:1024px),(pointer:coarse) and (orientation:landscape){ :root{--vh-limit:22vh;} }
+
+    /* === WICHTIG: Nur den Header auf Touch-Geräten ausblenden (am Ende, mit !important) === */
+    .is-touch header { display:none !important; }
   </style>
 </head>
 <body class="bg-body-tertiary">
@@ -79,10 +88,169 @@
 
   <main class="container my-4">
     <section class="grid" id="cards">
-      <!-- alle deine Kacheln (ESC Prod, Lager, Lohn-Abrechnung, Wochenbericht, Heimfahrt-Rechner, Arbeitszeiterfassung, Kontaktliste, Google Drive, iLovePDF, iCloud …) -->
+      <!-- ESC Prod Dashboard -->
+      <article class="card link-card" data-title="ESC Prod Dashboard" data-domain="escprod.azurewebsites.net">
+        <a class="stretched-tile" href="https://escprod.azurewebsites.net/login?returnUrl=%2Fdashboard" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-danger text-white"><i class="bi bi-speedometer2"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">ESC Prod Dashboard</h2>
+            <p class="mb-2 small text-body-secondary">E-Service-Check Portal</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://escprod.azurewebsites.net/login?returnUrl=%2Fdashboard" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">escprod.azurewebsites.net</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ESC Lager -->
+      <article class="card link-card" data-title="ESC Lager" data-domain="lager.e-service-check.de">
+        <a class="stretched-tile" href="https://lager.e-service-check.de/" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-danger text-white"><i class="bi bi-box-seam"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">ESC Lager</h2>
+            <p class="mb-2 small text-body-secondary">Zugriff auf das Lager-Portal</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://lager.e-service-check.de/" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">lager.e-service-check.de</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Lohn-Abrechnung -->
+      <article class="card link-card" data-title="Lohn-Abrechnung" data-domain="apps.eurodata.de">
+        <a class="stretched-tile" href="https://sso.eurodata.de/u/auth/realms/eurodata/protocol/openid-connect/auth?client_id=app-emitarbeiter-frontend&redirect_uri=https%3A%2F%2Fapps.eurodata.de%2Fa%2Femitarbeiter%2Fui%2Fr%2Fega" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-warning text-dark"><i class="bi bi-shield-lock-fill"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">Lohn-Abrechnung</h2>
+            <p class="mb-2 small text-body-secondary">Weiterleitung zu eMitarbeiter für Lohnabrechnungen</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://sso.eurodata.de/u/auth/realms/eurodata/protocol/openid-connect/auth?client_id=app-emitarbeiter-frontend&redirect_uri=https%3A%2F%2Fapps.eurodata.de%2Fa%2Femitarbeiter%2Fui%2Fr%2Fega" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">apps.eurodata.de</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kurzbericht Woche -->
+      <article class="card link-card" data-title="Kurzbericht Woche" data-domain="sebthecrab.github.io">
+        <a class="stretched-tile" href="https://sebthecrab.github.io/Wochenbericht/" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-dark text-white"><i class="bi bi-journal-check"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">Kurzbericht Woche</h2>
+            <p class="mb-2 small text-body-secondary">Wochenberichte pflegen</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://sebthecrab.github.io/Wochenbericht/" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Heimfahrt-Rechner -->
+      <article class="card link-card" data-title="Heimfahrt-Rechner" data-domain="sebthecrab.github.io">
+        <a class="stretched-tile" href="https://sebthecrab.github.io/Heimfahrt-Rechner/" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-dark text-white"><i class="bi bi-geo-fill"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">Heimfahrt-Rechner</h2>
+            <p class="mb-2 small text-body-secondary">Arbeitszeit kalkulieren</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://sebthecrab.github.io/Heimfahrt-Rechner/" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Arbeitszeiterfassung -->
+      <article class="card link-card" data-title="Erfassung Arbeitszeit" data-domain="sebthecrab.github.io">
+        <a class="stretched-tile" href="https://sebthecrab.github.io/Arbeitszeiterfassung/" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-dark text-white"><i class="bi bi-clock-history"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">Erfassung Arbeitszeit</h2>
+            <p class="mb-2 small text-body-secondary">Zeiten erfassen & auswerten</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://sebthecrab.github.io/Arbeitszeiterfassung/" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kontaktliste -->
+      <article class="card link-card" data-title="Kontaktliste" data-domain="sebthecrab.github.io">
+        <a class="stretched-tile" href="https://sebthecrab.github.io/Kontaktliste/" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-dark text-white"><i class="bi bi-people-fill"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">Kontaktliste</h2>
+            <p class="mb-2 small text-body-secondary">Deine Kontakte</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://sebthecrab.github.io/Kontaktliste/" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">sebthecrab.github.io</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Google Drive -->
+      <article class="card link-card" data-title="Google Drive" data-domain="drive.google.com">
+        <a class="stretched-tile" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-secondary text-white"><i class="bi bi-folder-fill"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">Google Drive</h2>
+            <p class="mb-2 small text-body-secondary">Zugriff auf „Mein Drive“</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">drive.google.com</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- iLovePDF -->
+      <article class="card link-card" data-title="iLovePDF" data-domain="ilovepdf.com">
+        <a class="stretched-tile" href="https://www.ilovepdf.com/de" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-secondary text-white"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">iLovePDF</h2>
+            <p class="mb-2 small text-body-secondary">PDF-Tools online nutzen</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://www.ilovepdf.com/de" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">ilovepdf.com</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- iCloud -->
+      <article class="card link-card" data-title="iCloud" data-domain="icloud.com">
+        <a class="stretched-tile" href="https://www.icloud.com" target="_blank" rel="noopener"></a>
+        <div class="card-body d-flex gap-3">
+          <div class="brand-badge bg-secondary text-white"><i class="bi bi-cloud-fill"></i></div>
+          <div class="flex-grow-1 w-100">
+            <h2 class="h6 mb-1">iCloud</h2>
+            <p class="mb-2 small text-body-secondary">Apple Cloud-Speicher</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-sm" href="https://www.icloud.com" target="_blank" rel="noopener">Öffnen</a>
+              <span class="align-self-center small text-body-secondary">icloud.com</span>
+            </div>
+          </div>
+        </div>
+      </article>
     </section>
   </main>
 
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
