@@ -1,4 +1,4 @@
-<!-- Filename: work-links-dashboard_v10.html -->
+<!-- Filename: work-links-dashboard_v11.html -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -29,7 +29,7 @@
     }
     body{ min-height: 100dvh; }
 
-    /* ===== Klassisches Kartenlayout (Desktop) ===== */
+    /* ===== Desktop (klassisch) ===== */
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fill, minmax(var(--card-min-w),1fr));
@@ -68,37 +68,31 @@
     }
 
     /* ============================================================
-       APP-KACHEL-DESIGN für Smartphones & Tablets
-       - greift bis 1024px Breite ODER auf Touch-Geräten generell
-       - Portrait & Landscape
+       APP-KACHEL-DESIGN für Smartphones & Tablets (Portrait/Landscape)
+       – greift bis 1024px Breite ODER auf Touch-Geräten generell
+       – Kachelgröße basiert auf Grid-Zellenbreite (NICHT 100vw!)
        ============================================================ */
     @media (max-width: 1024px), (pointer: coarse) {
-      /* Basis-Variablen für App-Grid */
       :root{
-        --cols: 4;             /* Standard: 4 Spalten (Phones) */
+        --cols: 4;         /* Standard: 4 Spalten */
         --gap: 14px;
         --padX: 8px;
-        --vh-limit: 18vh;      /* Tile-Höhenlimit in Portrait */
-        /* Kachelbreite aus Viewportbreite: (100vw - Gaps - Padding) / Spalten */
-        --tile-vw: calc((100vw - (var(--cols) - 1)*var(--gap) - 2*var(--padX)) / var(--cols));
-        /* Endgültige Größe: beschränkt durch Höhe → garantiert quadratisch */
-        --tile-size: min(var(--tile-vw), var(--vh-limit));
+        --vh-limit: 18vh;  /* Portrait-Limit für die Kachelhöhe */
       }
 
-      /* Grid auf App-Layout umstellen */
       .grid{
-        grid-template-columns: repeat(var(--cols), 1fr);
+        grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
         gap: var(--gap);
         padding: 6px var(--padX);
       }
 
-      /* Karte wird zur App-Kachel */
       .link-card{
         position:relative;
         border:none;
         background:transparent;
         box-shadow:none;
         padding:0;
+        -webkit-tap-highlight-color: transparent;
       }
       .link-card .card-body{
         display:flex;
@@ -108,26 +102,35 @@
         text-align:center;
         gap:8px;
         padding:0;
+        width: 100%;
       }
 
-      /* Quadratische Kachelfläche (Icon-Container) */
+      /* Quadratische App-Kachel:
+         - füllt die Grid-Zelle (width:100%)
+         - bleibt quadratisch über aspect-ratio
+         - wird zusätzlich über vh begrenzt (max-height)
+      */
       .link-card .brand-badge{
-        width: var(--tile-size);
-        height: var(--tile-size);
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        height: auto;
+        max-height: var(--vh-limit);
         border-radius: var(--ios-radius);
-        font-size: clamp(1.4rem, 5vw, 2rem);
+        font-size: clamp(1.3rem, 4.8vw, 2rem);
         box-shadow:
           0 6px 12px rgba(0,0,0,.12),
           inset 0 0 0 1px rgba(255,255,255,.12);
+        display:flex; align-items:center; justify-content:center;
       }
 
-      /* App-Name ausgeschrieben (mehrzeilig möglich) */
+      /* App-Name ausgeschrieben, Zeilenumbruch erlaubt */
       .link-card h2{
         margin:0;
         margin-top: 2px;
         font-size:.95rem;
         line-height:1.2;
-        max-width: calc(var(--tile-size) + 2px);
+        width: 100%;
+        max-width: 100%;
         white-space: normal;
         word-break: break-word;
       }
@@ -164,26 +167,21 @@
     @media (min-width: 600px) and (max-width: 1024px),
            (pointer: coarse) and (min-width: 600px) {
       :root{
-        --cols: 5; /* z.B. iPhone/kleines Tablet quer */
-        --tile-vw: calc((100vw - (var(--cols) - 1)*var(--gap) - 2*var(--padX)) / var(--cols));
-        --tile-size: min(var(--tile-vw), var(--vh-limit));
+        --cols: 5;
       }
     }
     @media (min-width: 900px) and (max-width: 1024px),
            (pointer: coarse) and (min-width: 900px) {
       :root{
-        --cols: 6; /* Tablet Portrait/Landscape */
-        --tile-vw: calc((100vw - (var(--cols) - 1)*var(--gap) - 2*var(--padX)) / var(--cols));
-        --tile-size: min(var(--tile-vw), var(--vh-limit));
+        --cols: 6;
       }
     }
 
-    /* In Landscape etwas großzügiger in der Höhe dimensionieren */
+    /* Landscape: etwas großzügigeres Höhenlimit */
     @media (orientation: landscape) and (max-width: 1024px),
            (pointer: coarse) and (orientation: landscape) {
       :root{
         --vh-limit: 22vh;
-        --tile-size: min(var(--tile-vw), var(--vh-limit));
       }
     }
   </style>
